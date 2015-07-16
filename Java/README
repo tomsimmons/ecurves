@@ -1,0 +1,28 @@
+Elliptic Curves
+
+Disclaimer
+==========
+It should be noted up front that this code was not designed for security
+focused applications. This was created for research purposes to study a
+cetain function that deals with elliptic curves. The math checks out, so one
+could use this for some type of security purpose but the code is neither
+optimized for performance nor protected in any way from side channel attacks.
+
+Background
+==========
+This code was created in order to study elliptic curves, and specifically a
+hash function onto them. The goal was to improve the coverage of the function.
+
+Usage
+=====
+The elliptic curve class provides a simple interface to create an elliptic
+curve in Weierstrass form and perform addition between two points. The Icart
+code implements the hash function of Thomas Icart (the original specification
+of which can be found here: https://eprint.iacr.org/2009/226.pdf). The research
+called for the counting of collisions in this function, so that is the bulk of
+the code in the Icart class. One can also directly apply the function to a
+value and hash individual inputs.
+
+License
+=======
+See the included LICENSE file for details

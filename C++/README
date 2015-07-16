@@ -1,0 +1,33 @@
+A C++ implementation of Icart's hash function
+
+icart
+-----
+The icart program counts the number of points hit by Icart's hash function for
+a given elliptic curve. The inputs are a prime and the two coefficients of the
+curve (A and B). 
+e.g. icart 29 -1 1 => Points hit: 20
+
+The counting is performed on the back end with a hash set (unordered_map),
+where the input is a 64 bit int generated from a single point on the curve.
+This is done by XORing the abscissa with 0, shifting left, then XORing the 
+ordinate. This means the algorithm may not work correctly for points whose x,y
+values each exceed 2^32. Note also that this limits the code to usage on 64-bit
+architectures.
+
+As of 2015-04-06:
+Given the curve equation y^2 = x^3 +ax + b, we know that (x,-y) is on the curve
+whenever (x,y) is. In order to save computation, we can calculate Icart's hash
+for all u values up to p/2 and then double the resultant count of distinct
+points. We must account for two things. The first is the special cases where
+u, -u map to the same point. These are counted separately and then not doubled.
+The second are collisions where both (x,y) and (x,-y) are mapped to by values
+less than p/2. FOR THIS REASON, ONLY X VALUES ARE USED AS KEYS IN THE HASH MAP.
+
+schoof
+------
+The schoof program is compiled from the code provided in the MIRACL library. It
+implements Schoof's point counting algorithm for elliptic curves. The inputs
+are the same as the icart program, taking a prime, A value, and B value. The
+output contains much information one would want for finding cryptographically
+secure curves, but for our purposes we focus on the point count.
+e.g. schoof 29 -1 0 => ... NP= 40 ...
